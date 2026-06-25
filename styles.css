@@ -349,6 +349,42 @@ body {
   z-index: 1;
 }
 
+/* ── Featured card ── */
+.resource-card--featured {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+  background: rgba(224,138,62,.12);
+  border: 1px solid rgba(224,138,62,.45);
+  position: relative;
+  padding: 2rem 2.5rem;
+}
+
+.resource-card--featured .card-body { flex: 1; }
+
+.resource-card--featured .card-title {
+  font-size: 1.25rem;
+}
+
+.card-featured-label {
+  position: absolute;
+  top: -13px;
+  left: 2rem;
+  background: var(--amber);
+  color: var(--white);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .3rem .85rem;
+  border-radius: 99px;
+}
+
+@media (max-width: 680px) {
+  .resource-card--featured { flex-direction: column; padding: 2rem 1.5rem; }
+}
+
 .resource-card {
   background: rgba(255,255,255,.06);
   border: 1px solid rgba(255,255,255,.1);
