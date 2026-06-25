@@ -18,22 +18,9 @@ window.addEventListener('scroll', () => {
   header.style.padding = window.scrollY > 60 ? '0' : '';
 }, { passive: true });
 
-/* ── Gracias button + confetti ── */
-const btn = document.getElementById('btnGracias');
-const graciasText = document.getElementById('gracias-text');
+/* ── Confetti ── */
 const canvas = document.getElementById('confettiCanvas');
 const ctx = canvas.getContext('2d');
-
-const messages = [
-  '¡Gracias por participar!',
-  '¡Nos alegra mucho que hayas estado!',
-  '¡Fue un gusto compartir este espacio!',
-  '¡Hasta el próximo taller!',
-];
-
-let msgIndex = 0;
-let particles = [];
-let animFrame = null;
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -44,22 +31,25 @@ window.addEventListener('resize', resizeCanvas);
 
 function randomBetween(a, b) { return a + Math.random() * (b - a); }
 
-const COLORS = ['#e08a3e', '#f0a85e', '#1c2e4a', '#2e7d6a', '#ffffff', '#ffd166'];
+const COLORS = ['#e08a3e', '#f0a85e', '#1c2e4a', '#2e7d6a', '#ffffff', '#ffd166', '#f472b6'];
 
-function spawnConfetti(x, y, count = 80) {
+let particles = [];
+let animFrame = null;
+
+function spawnConfetti(x, y, count = 90) {
   for (let i = 0; i < count; i++) {
     const angle = randomBetween(0, Math.PI * 2);
-    const speed = randomBetween(3, 9);
+    const speed = randomBetween(3, 10);
     particles.push({
       x, y,
       vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - randomBetween(2, 6),
+      vy: Math.sin(angle) * speed - randomBetween(2, 7),
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      size: randomBetween(5, 10),
+      size: randomBetween(5, 11),
       rotation: randomBetween(0, Math.PI * 2),
       rotSpeed: randomBetween(-0.12, 0.12),
       life: 1,
-      decay: randomBetween(0.012, 0.022),
+      decay: randomBetween(0.010, 0.020),
     });
   }
 }
@@ -77,17 +67,15 @@ function drawParticle(p) {
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particles = particles.filter(p => p.life > 0);
-
   for (const p of particles) {
     p.x += p.vx;
     p.y += p.vy;
-    p.vy += 0.25;         // gravity
-    p.vx *= 0.98;         // air drag
+    p.vy += 0.25;
+    p.vx *= 0.98;
     p.rotation += p.rotSpeed;
     p.life -= p.decay;
     drawParticle(p);
   }
-
   if (particles.length > 0) {
     animFrame = requestAnimationFrame(animate);
   } else {
@@ -96,27 +84,30 @@ function animate() {
   }
 }
 
-btn.addEventListener('click', () => {
-  msgIndex = (msgIndex + 1) % messages.length;
-  graciasText.textContent = messages[msgIndex];
+/* Auto-trigger confetti when gracias section enters view */
+const graciasSec = document.getElementById('gracias');
+let confettiFired = false;
 
-  // Burst from button center
-  const rect = btn.getBoundingClientRect();
-  const cx = rect.left + rect.width / 2;
-  const cy = rect.top + rect.height / 2;
+const graciasTrigger = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !confettiFired) {
+      confettiFired = true;
+      graciasTrigger.unobserve(graciasSec);
 
-  spawnConfetti(cx, cy, 90);
+      /* burst from center of viewport */
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight * 0.45;
+      spawnConfetti(cx, cy, 110);
 
-  if (!animFrame) animate();
+      /* second smaller burst after 400ms */
+      setTimeout(() => {
+        spawnConfetti(cx - 120, cy + 40, 40);
+        spawnConfetti(cx + 120, cy + 40, 40);
+      }, 400);
 
-  btn.classList.add('clicked');
-  setTimeout(() => btn.classList.remove('clicked'), 1200);
-});
+      if (!animFrame) animate();
+    }
+  });
+}, { threshold: 0.35 });
 
-/* hover: mini-burst */
-btn.addEventListener('mouseenter', () => {
-  const rect = btn.getBoundingClientRect();
-  spawnConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 18);
-  if (!animFrame) animate();
-});
-
+graciasTrigger.observe(graciasSec);

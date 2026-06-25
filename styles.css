@@ -218,6 +218,48 @@ body {
   50%       { transform: translateX(-50%) translateY(6px); }
 }
 
+/* ── Subsection headers ── */
+.section-header--sub {
+  margin-top: 3.5rem;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.subsection-title {
+  font-family: 'Merriweather', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.75);
+  letter-spacing: .01em;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+/* ── Extra card icon colors ── */
+.card-icon--pink { background: rgba(219,39,119,.18); }
+.card-icon--pink svg { stroke: #f472b6; }
+
+.card-icon--red { background: rgba(220,38,38,.18); }
+.card-icon--red svg { stroke: #f87171; }
+
+.card-icon--dark { background: rgba(255,255,255,.1); }
+.card-icon--dark svg { stroke: rgba(255,255,255,.7); }
+
+/* ── Link button variant ── */
+.btn-link {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+}
+.btn-link:hover {
+  background: var(--amber);
+  border-color: transparent;
+}
+
+/* ── Wide grid (more columns on large screens) ── */
+.cards-grid--wide {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
 /* ── Gracias ── */
 .gracias {
   padding: 6rem 1.5rem;
@@ -276,38 +318,6 @@ body {
   margin-bottom: 1rem;
 }
 
-.btn-gracias {
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  margin-top: 1.5rem;
-  background: var(--blue-dark);
-  color: var(--white);
-  border: none;
-  border-radius: 99px;
-  padding: .75rem 2rem;
-  font-size: .95rem;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-}
-
-.btn-gracias svg { width: 18px; height: 18px; transition: transform var(--transition); }
-
-.btn-gracias:hover {
-  background: var(--amber);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(224,138,62,.35);
-}
-
-.btn-gracias:hover svg { transform: scale(1.2); fill: rgba(255,255,255,.3); }
-.btn-gracias:active { transform: translateY(0); }
-
-.btn-gracias.clicked {
-  background: var(--green);
-  pointer-events: none;
-}
 
 /* ── Recursos ── */
 .recursos {
