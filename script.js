@@ -120,20 +120,3 @@ btn.addEventListener('mouseenter', () => {
   if (!animFrame) animate();
 });
 
-/* ── Smooth active nav link ── */
-const sections = document.querySelectorAll('section[id], footer[id]');
-const navLinks = document.querySelectorAll('.nav-links a');
-
-const navObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(a => {
-        a.style.color = a.getAttribute('href') === '#' + entry.target.id
-          ? 'var(--amber-light)'
-          : '';
-      });
-    }
-  });
-}, { threshold: 0.4 });
-
-sections.forEach(s => navObserver.observe(s));
